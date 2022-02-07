@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../lib/layui/css/layui.css">
+    <link rel="stylesheet" href="../lib/cropper/cropper.css">
+    <link rel="stylesheet" href="../css/art_pub.css">
+</head>
+
+<body>
+    <!-- 卡片区域 -->
+    <div class="layui-card">
+        <div class="layui-card-header">写文章</div>
+        <div class="layui-card-body">
+            <!-- 发布文章的表单区域 -->
+            <form class="layui-form" id="form-pub">
+                <!-- 第一行 文章类型 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label">文章标题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="title" required lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+                <!-- 第二行 文章类别 下拉列表 -->
+                <div class="layui-form-item">
+                    <label class="layui-form-label" style="float: left;">文章类别</label>
+                    <div class="layui-input-block">
+                        <!-- 需要动态生成类别， js中调用ajax请求， 并且传输到搜索引擎最后渲染到下拉列表 -->
+                        <select name="cate_id">
+                        
+                    </select>
+                    </div>
+                </div>
+                <!-- 第三行 利用富文本添加文章内容 需要三步曲，第一步渲染ui结构，  label和一个文本域
+                            第二步，导入富文本的脚本文件，引入成功后会生成一个initEditor方法，第三步调用此方法实现富文本的相关内容 -->
+                <div class="layui-form-item">
+                    <!-- 左侧的label -->
+                    <label class="layui-form-label">文章内容</label>
+                    <!-- 为富文本编辑器外部的容器设置高度 -->
+                    <div class="layui-input-block" style="height: 400px;">
+                        <!-- 重要:将来这个textarea 会被初始化为富文本编辑器 -->
+                        <textarea name="content"></textarea>
+                    </div>
+                </div>
+                <!-- 第四行  封面裁剪区域 -->
+                <div class="layui-form-item">
+                    <!-- 左侧的label -->
+                    <label class="layui-form-label">文章封面</label>
+                    <!-- 选择封面区域 -->
+                    <div class="layui-input-block cover-box">
+                        <!-- 左侧裁剪区域 -->
+                        <div class="cover-left">
+                            <img id="image" src="../images/sample2.jpg" alt="" />
+                        </div>
+                        <!-- 右侧预览区域和选择封面区域 -->
+                        <div class="cover-right">
+                            <!-- 预览的区域 -->
+                            <div class="img-preview"></div>
+                            <!-- 选择封面按钮 -->
+                            <!-- 隐藏的文件选择框 -->
+                            <input type="file" style="display:none" id="coverFile" accept="image/png,image/jpeg,image/gif">
+                            <button type="button" class="layui-btn layui-btn-danger" id="btnChooseImage">选择封面</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- 第五行  发布存为草稿按钮 -->
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit id="btnSave1">发布</button>
+                        <button class="layui-btn layui-btn-primary" lay-submit id="btnSave2">存为草稿</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- 定义模板引擎，渲染文章类别下拉选项 -->
+    <script type="text/html" id="tpl-cate">
+        <option value="">请选择文章类别</option>
+        {{each data}}
+        <option value="{{$value.Id}}">{{$value.name}}</option>
+        {{/each}}
+    </script>
+    <script src="../lib/layui/layui.all.js"></script>
+    <script src="../lib/jquery.js"></script>
+    <script src="../js/baseAPI.js"></script>
+    <script src="../lib/template-web.js"></script>
+    <!-- 导入   富文本的两个js文件，生成initEditor函数实现富文本的渲染 -->
+    <script src="../lib/tinymce/tinymce.min.js"></script>
+    <script src="../lib/tinymce/tinymce_setup.js"></script>
+    <!-- 导入 cropper脚本文件 -->
+    <script src="../lib/cropper/Cropper.js"></script>
+    <script src="../lib/cropper/jquery-cropper.js"></script>
+    <script src="../js/art_pub.js"></script>
+</body>
+
+</html>
